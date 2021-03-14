@@ -64,6 +64,8 @@ def runGame():
                     direction = RIGHT
                 elif(event.key == K_UP or event.key == K_w) and direction != DOWN:
                     direction = UP
+                elif(event.key == K_DOWN or event.key == K_s) and direction != UP:
+                    direction = DOWN
                 elif event.key == K_ESCAPE:
                     terminate()
 
@@ -170,7 +172,7 @@ def showGameOverScreen():
 def drawScore(score):
     scoreSurf = BASICFONT.render('Score: %s' % (score), True, WHITE)
     scoreRect = scoreSurf.get_rect()
-    scoreRect.topleft = (WINDOWWIDTH-120,10)
+    scoreRect.topleft = (WINDOWWIDTH-120, 10)
     DISPLAYSURF.blit(scoreSurf, scoreRect)
 
 def drawWorm(wormCoords):
@@ -178,22 +180,22 @@ def drawWorm(wormCoords):
         x = coord['x'] * CELLSIZE
         y = coord['y'] * CELLSIZE
 
-        wormSegmentRect = pygame.Rect(x,y, CELLSIZE, CELLSIZE)
+        wormSegmentRect = pygame.Rect(x, y, CELLSIZE, CELLSIZE)
         pygame.draw.rect(DISPLAYSURF, DARKGREEN, wormSegmentRect)
-        wormInnerSegmentRect = pygame.Rect(x+4,y+4,CELLSIZE-8,CELLSIZE-8)
+        wormInnerSegmentRect = pygame.Rect(x+4, y+4, CELLSIZE-8, CELLSIZE-8)
         pygame.draw.rect(DISPLAYSURF, GREEN, wormInnerSegmentRect)
 
 def drawApple(coord):
     x = coord['x'] * CELLSIZE
     y = coord['y'] * CELLSIZE
-    appleRect = pygame.Rect(x,y,CELLSIZE, CELLSIZE)
-    pygame.draw.rect(DISPLAYSURF,RED, appleRect)
+    appleRect = pygame.Rect(x, y, CELLSIZE, CELLSIZE)
+    pygame.draw.rect(DISPLAYSURF, RED, appleRect)
 
 def drawGrid():
-    for x in range(0,WINDOWWIDTH, CELLSIZE):
-        pygame.draw.line(DISPLAYSURF,DARKGRAY, (x,0), (x,WINDOWHEIGHT))
-    for y in range(0,WINDOWHEIGHT, CELLSIZE):
-        pygame.draw.line(DISPLAYSURF,DARKGRAY,(0,y), (WINDOWWIDTH, y))
+    for x in range(0, WINDOWWIDTH, CELLSIZE):
+        pygame.draw.line(DISPLAYSURF, DARKGRAY, (x, 0), (x, WINDOWHEIGHT))
+    for y in range(0, WINDOWHEIGHT, CELLSIZE):
+        pygame.draw.line(DISPLAYSURF, DARKGRAY, (0, y), (WINDOWWIDTH, y))
 
 if __name__ == '__main__':
     main()
