@@ -2,6 +2,7 @@ import random
 import pygame
 import sys
 from pygame.locals import *
+
 FPS = 15
 WINDOWWIDTH = 640
 WINDOWHEIGHT = 480
@@ -31,7 +32,7 @@ def main():
     global FPSCLOCK, DISPLAYSURF, BASICFONT
     pygame.init()
     FPSCLOCK = pygame.time.Clock()
-    DISPLAYSURF = pygame.display.set_mode(WINDOWWIDTH, WINDOWHEIGHT)
+    DISPLAYSURF = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
     BASICFONT = pygame.font.Font('freesansbold.ttf', 18)
     pygame.display.set_caption('Wormy')
 
@@ -160,5 +161,42 @@ def showGameOverScreen():
     pygame.display.update()
     pygame.time.wait(500)
     checkForKeyPress()
+
+    while True:
+        if checkForKeyPress():
+            pygame.event.get()
+            return
+
+def drawScore(score):
+    scoreSurf = BASICFONT.render('Score: %s' % (score), True, WHITE)
+    scoreRect = scoreSurf.get_rect()
+    scoreRect.topleft = (WINDOWWIDTH-120,10)
+    DISPLAYSURF.blit(scoreSurf, scoreRect)
+
+def drawWorm(wormCoords):
+    for coord in wormCoords:
+        x = coord['x'] * CELLSIZE
+        y = coord['y'] * CELLSIZE
+
+        wormSegmentRect = pygame.Rect(x,y, CELLSIZE, CELLSIZE)
+        pygame.draw.rect(DISPLAYSURF, DARKGREEN, wormSegmentRect)
+        wormInnerSegmentRect = pygame.Rect(x+4,y+4,CELLSIZE-8,CELLSIZE-8)
+        pygame.draw.rect(DISPLAYSURF, GREEN, wormInnerSegmentRect)
+
+def drawApple(coord):
+    x = coord['x'] * CELLSIZE
+    y = coord['y'] * CELLSIZE
+    appleRect = pygame.Rect(x,y,CELLSIZE, CELLSIZE)
+    pygame.draw.rect(DISPLAYSURF,RED, appleRect)
+
+def drawGrid():
+    for x in range(0,WINDOWWIDTH, CELLSIZE):
+        pygame.draw.line(DISPLAYSURF,DARKGRAY, (x,0), (x,WINDOWHEIGHT))
+    for y in range(0,WINDOWHEIGHT, CELLSIZE):
+        pygame.draw.line(DISPLAYSURF,DARKGRAY,(0,y), (WINDOWWIDTH, y))
+
+if __name__ == '__main__':
+    main()
+
 
 
